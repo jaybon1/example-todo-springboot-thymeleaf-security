@@ -29,12 +29,14 @@ public class ResTodoGetWithIdDTOApiV1 {
         private Long id;
         private String content;
         private String doneYn;
+        private String createDate;
 
         public static Todo fromEntity(TodoEntity todoEntity) {
             return Todo.builder()
                     .id(todoEntity.getId())
                     .content(todoEntity.getContent())
                     .doneYn(todoEntity.getDoneYn())
+                    .createDate(todoEntity.getCreateDate().toString())
                     .build();
         }
 

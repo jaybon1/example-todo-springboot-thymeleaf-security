@@ -3,10 +3,33 @@ package com.example.my.util;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
 public class UtilFunction {
+
+//    public static String getZonedDateTimeStringBy() {
+//        return getZonedDateTimeStringBy(Instant.now(), ZoneId.systemDefault(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//    }
+//
+//    public static String getZonedDateTimeStringBy(Instant instant) {
+//        return getZonedDateTimeStringBy(instant, ZoneId.systemDefault(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//    }
+//
+//    public static String getZonedDateTimeStringBy(Instant instant, ZoneId zoneId) {
+//        return instant.atZone(zoneId).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//    }
+//
+//    public static String getZonedDateTimeStringBy(Instant instant, DateTimeFormatter dateTimeFormatter) {
+//        return getZonedDateTimeStringBy(instant, ZoneId.systemDefault(), dateTimeFormatter);
+//    }
+
+    public static String getZonedDateTimeStringBy(Instant instant, ZoneId zoneId, DateTimeFormatter dateTimeFormatter) {
+        return instant.atZone(zoneId).format(dateTimeFormatter);
+    }
 
     public static boolean isWindows() {
         String OS = System.getProperty("os.name").toLowerCase();

@@ -4,6 +4,7 @@ import com.example.my.model.todo.entity.TodoEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,13 +29,13 @@ public class UserEntity {
     private String password;
 
     @Column(name = "create_date", nullable = false)
-    private LocalDateTime createDate;
+    private Instant createDate;
 
     @Column(name = "update_date")
-    private LocalDateTime updateDate;
+    private Instant updateDate;
 
     @Column(name = "delete_date")
-    private LocalDateTime deleteDate;
+    private Instant deleteDate;
 
     @OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY)
     private List<UserRoleEntity> userRoleEntityList;

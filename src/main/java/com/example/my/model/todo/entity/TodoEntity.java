@@ -4,6 +4,7 @@ import com.example.my.model.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
@@ -31,20 +32,20 @@ public class TodoEntity {
     private String doneYn;
 
     @Column(name = "create_date", nullable = false)
-    private LocalDateTime createDate;
+    private Instant createDate;
 
     @Column(name = "update_date")
-    private LocalDateTime updateDate;
+    private Instant updateDate;
 
     @Column(name = "delete_date")
-    private LocalDateTime deleteDate;
+    private Instant deleteDate;
 
     public void setDoneYn(String doneYn) {
         this.doneYn = doneYn;
-        this.updateDate = LocalDateTime.now();
+        this.updateDate = Instant.now();
     }
 
-    public void setDeleteDate(LocalDateTime deleteDate) {
+    public void setDeleteDate(Instant deleteDate) {
         this.deleteDate = deleteDate;
     }
 }

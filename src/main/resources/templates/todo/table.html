@@ -18,6 +18,16 @@
       rel="stylesheet"
       href="/css/todo-table.css"
   />
+  <style>
+      .label-width-90-percent {
+          width: 90%;
+      }
+
+      .content-date-container {
+          display: flex;
+          justify-content: space-between;
+      }
+  </style>
   <title>todoList</title>
 </head>
 <body>
@@ -47,12 +57,15 @@
         <ul id="todoList" class="list-unstyled">
           <li class="ui-state-default" th:each="todo : ${dto.todoList}">
             <div class="checkbox">
-              <label>
+              <label class="label-width-90-percent">
                 <input
-                    th:onchange="setDoneY([[${todo.id}]])"
+                    th:onchange="setDoneYN([[${todo.id}]], 'Y')"
                     type="checkbox"
                 />
-                <span th:text="${todo.content}"></span>
+                <div class="content-date-container">
+                  <span th:text="${todo.content}"></span>
+                  <span th:text="${todo.createDate}"></span>
+                </div>
               </label>
             </div>
           </li>
@@ -71,13 +84,16 @@
         <ul id="doneList" class="list-unstyled">
           <li th:each="todo : ${dto.doneList}">
             <div class="checkbox">
-              <label>
+              <label class="label-width-90-percent">
                 <input
-                    th:onchange="setDoneN([[${todo.id}]])"
+                    th:onchange="setDoneYN([[${todo.id}]], 'N')"
                     class="remove-item"
                     type="checkbox"
                 />
-                <span th:text="${todo.content}"></span>
+                <div class="content-date-container">
+                  <span th:text="${todo.content}"></span>
+                  <span th:text="${todo.createDate}"></span>
+                </div>
               </label>
               <button
                   th:onclick="setDelete([[${todo.id}]])"
@@ -103,6 +119,17 @@
 <script>
     console.log("스타일 참고", "https://bootsnipp.com/snippets/QbN51");
 
+    const getParsedDateString = (dateString) => {
+        const date = new Date(dateString);
+        const yyyy = date.getFullYear();
+        const MM = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+        const dd = String(date.getDate()).padStart(2, '0');
+        const HH = String(date.getHours()).padStart(2, '0');
+        const mm = String(date.getMinutes()).padStart(2, '0');
+        const ss = String(date.getSeconds()).padStart(2, '0');
+        return `${yyyy}-${MM}-${dd} ${HH}:${mm}:${ss}`;
+    };
+
     const init = () => {
         fetch(`/v1/todo`)
             .then((response) => response.json())
@@ -120,12 +147,15 @@
                             `
                             <li class="ui-state-default">
                                 <div class="checkbox">
-                                    <label>
+                                    <label class="label-width-90-percent">
                                         <input
                                             onchange="setDoneYN(${todo.id}, 'Y')"
                                             type="checkbox"
                                         />
-                                        <span>${todo.content}</span>
+                                        <div class="content-date-container">
+                                          <span>${todo.content}</span>
+                                          <span>${getParsedDateString(todo.createDate)}</span>
+                                        </div>
                                     </label>
                                 </div>
                             </li>
@@ -143,13 +173,16 @@
                             `
                             <li>
                                 <div class="checkbox">
-                                    <label>
+                                    <label class="label-width-90-percent">
                                         <input
                                             onchange="setDoneYN(${todo.id}, 'N')"
                                             class="remove-item"
                                             type="checkbox"
                                         />
-                                        <span>${todo.content}</span>
+                                        <div class="content-date-container">
+                                          <span>${todo.content}</span>
+                                          <span>${getParsedDateString(todo.createDate)}</span>
+                                        </div>
                                     </label>
                                     <button
                                         onclick="setDelete(${todo.id})"
@@ -170,7 +203,7 @@
                 alert(error.message);
             });
     };
-    init();
+    // init();
 
     const contentInput = document.querySelector("#content");
     contentInput.addEventListener("keypress", (e) => {

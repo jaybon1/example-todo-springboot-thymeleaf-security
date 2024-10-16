@@ -4,6 +4,7 @@ import com.example.my.model.user.constraint.RoleType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,5 +30,5 @@ public class UserRoleEntity {
     private RoleType role;
 
     @Column(name = "create_date")
-    private LocalDateTime createDate;
+    private Instant createDate;
 }

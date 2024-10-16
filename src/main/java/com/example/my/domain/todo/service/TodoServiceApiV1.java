@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -74,7 +75,7 @@ public class TodoServiceApiV1 {
                 .userEntity(userEntityOptional.get())
                 .content(dto.getTodo().getContent())
                 .doneYn("N")
-                .createDate(LocalDateTime.now())
+                .createDate(Instant.now())
                 .build();
 
         todoRepository.save(todoEntity);
@@ -115,7 +116,7 @@ public class TodoServiceApiV1 {
         if (!todoEntity.getUserEntity().getId().equals(customUserDetails.getUser().getId())) {
             throw new BadRequestException("권한이 없습니다.");
         }
-        todoEntity.setDeleteDate(LocalDateTime.now());
+        todoEntity.setDeleteDate(Instant.now());
         return new ResponseEntity<>(
                 ResDTO.builder()
                         .code(0)

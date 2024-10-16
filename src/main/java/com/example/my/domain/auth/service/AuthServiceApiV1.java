@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -58,7 +59,7 @@ public class AuthServiceApiV1 {
                 .username(dto.getUser().getUsername())
 //                .password(dto.getUser().getPassword()) // 시큐리티 없을 때의 코드
                 .password(passwordEncoder.encode(dto.getUser().getPassword()))
-                .createDate(LocalDateTime.now())
+                .createDate(Instant.now())
                 .build();
         UserEntity userEntity = userRepository.save(userEntityForSaving);
         UserRoleEntity userRoleEntityForSaving = UserRoleEntity.builder()
