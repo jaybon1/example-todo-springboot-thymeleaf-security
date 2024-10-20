@@ -37,19 +37,19 @@ public class TodoControllerApiV1 {
 
     @PostMapping
     public ResponseEntity<ResDTO<Object>> post(
-            @Valid @RequestBody ReqTodoPostDTOApiV1 dto,
+            @Valid @RequestBody ReqTodoPostDTOApiV1 reqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
-        return todoServiceApiV1.post(dto, customUserDetails);
+        return todoServiceApiV1.post(reqDto, customUserDetails);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ResDTO<Object>> put(
             @PathVariable Long id,
-            @Valid @RequestBody ReqTodoPutDTOApiV1 dto,
+            @Valid @RequestBody ReqTodoPutDTOApiV1 reqDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
-        return todoServiceApiV1.put(id, dto, customUserDetails);
+        return todoServiceApiV1.put(id, reqDto, customUserDetails);
     }
 
     @DeleteMapping("/{id}")

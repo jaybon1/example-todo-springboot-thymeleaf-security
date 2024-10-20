@@ -25,8 +25,8 @@ public class AuthControllerApiV1 {
 //    }
 
     @PostMapping("/join")
-    public ResponseEntity<ResDTO<Object>> join(@Valid @RequestBody ReqAuthPostJoinDTOApiV1 dto) {
-        return authServiceApiV1.join(dto);
+    public ResponseEntity<ResDTO<Object>> join(@Valid @RequestBody ReqAuthPostJoinDTOApiV1 reqDto) {
+        return authServiceApiV1.join(reqDto);
     }
 
 }

@@ -62,23 +62,12 @@ public class TodoServiceApiV1 {
 
     @Transactional
     public ResponseEntity<ResDTO<Object>> post(ReqTodoPostDTOApiV1 dto, CustomUserDetails customUserDetails) {
-        if (dto == null || dto.getTodo() == null || dto.getTodo().getContent() == null
-                || dto.getTodo().getContent().isBlank()) {
-            throw new BadRequestException("할 일을 입력해주세요.");
-        }
         Optional<UserEntity> userEntityOptional = userRepository
                 .findByIdAndDeleteDateIsNull(customUserDetails.getUser().getId());
         if (userEntityOptional.isEmpty()) {
             throw new BadRequestException("존재하지 않는 사용자입니다.");
         }
-        TodoEntity todoEntity = TodoEntity.builder()
-                .userEntity(userEntityOptional.get())
-                .content(dto.getTodo().getContent())
-                .doneYn("N")
-                .createDate(Instant.now())
-                .build();
-
-        todoRepository.save(todoEntity);
+        todoRepository.save(dto.toEntity(userEntityOptional.get()));
         return new ResponseEntity<>(
                 ResDTO.builder()
                         .code(0)
@@ -97,7 +86,7 @@ public class TodoServiceApiV1 {
         if (!todoEntity.getUserEntity().getId().equals(customUserDetails.getUser().getId())) {
             throw new BadRequestException("권한이 없습니다.");
         }
-        todoEntity.setDoneYn(dto.getTodo().getDoneYn());
+        dto.update(todoEntity);
         return new ResponseEntity<>(
                 ResDTO.builder()
                         .code(0)

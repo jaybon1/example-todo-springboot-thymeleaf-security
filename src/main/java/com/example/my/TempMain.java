@@ -9,9 +9,5 @@ public class TempMain {
 
         System.out.println(instant);
 
-        Instant instant1 = Instant.parse("2024-10-16T10:00:00Z");
-
-        System.out.println(instant1);
-
     }
 }

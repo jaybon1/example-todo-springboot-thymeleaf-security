@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -30,13 +29,13 @@ public class AuthServiceApiV1 {
     private final PasswordEncoder passwordEncoder;
 
 // 시큐리티 없을 때의 코드
-//    public ResponseEntity<?> login(ReqAuthPostLoginDTOApiV1 dto, HttpSession session){
-//        Optional<UserEntity> userEntityOptional = userRepository.findByIdAndDeleteDateIsNull(dto.getUser().getId());
+//    public ResponseEntity<?> login(ReqAuthPostLoginDTOApiV1 reqDto, HttpSession session){
+//        Optional<UserEntity> userEntityOptional = userRepository.findByIdAndDeleteDateIsNull(reqDto.getUser().getId());
 //        if (userEntityOptional.isEmpty()) {
 //            throw new BadRequestException("존재하지 않는 사용자입니다.");
 //        }
 //        UserEntity userEntity = userEntityOptional.get();
-//        if (!userEntity.getPassword().equals(dto.getUser().getPassword())) {
+//        if (!userEntity.getPassword().equals(reqDto.getUser().getPassword())) {
 //            throw new BadRequestException("비밀번호가 일치하지 않습니다.");
 //        }
 //        session.setAttribute("loginUserDTO", LoginUserDTO.of(userEntity));
@@ -50,15 +49,15 @@ public class AuthServiceApiV1 {
 //    }
 
     @Transactional
-    public ResponseEntity<ResDTO<Object>> join(ReqAuthPostJoinDTOApiV1 dto) {
-        Optional<UserEntity> userEntityOptional = userRepository.findByUsername(dto.getUser().getUsername());
+    public ResponseEntity<ResDTO<Object>> join(ReqAuthPostJoinDTOApiV1 reqDto) {
+        Optional<UserEntity> userEntityOptional = userRepository.findByUsername(reqDto.getUser().getUsername());
         if (userEntityOptional.isPresent()) {
             throw new BadRequestException("이미 존재하는 아이디입니다.");
         }
         UserEntity userEntityForSaving = UserEntity.builder()
-                .username(dto.getUser().getUsername())
+                .username(reqDto.getUser().getUsername())
 //                .password(dto.getUser().getPassword()) // 시큐리티 없을 때의 코드
-                .password(passwordEncoder.encode(dto.getUser().getPassword()))
+                .password(passwordEncoder.encode(reqDto.getUser().getPassword()))
                 .createDate(Instant.now())
                 .build();
         UserEntity userEntity = userRepository.save(userEntityForSaving);
